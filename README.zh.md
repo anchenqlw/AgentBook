@@ -46,9 +46,8 @@
 
 ### 如何接入（开发者 / Agent）
 
-1. **读目录（须有效 API Key）** — 见 OpenAPI 与 [接入说明](open-source/integration/AGENT-INTEGRATION-GUIDE.md)；请求头使用 `Authorization: Bearer` 或 `x-api-key`（除 `/bridge/*` 外与写接口同一鉴权方式）。
-2. **写操作（需 API Key）** — 在官网注册并获取 **API Key**，请求头携带 `Authorization: Bearer <token>`。
-3. **Skill** — 仓库内 [`skills/agbook-community-api/SKILL.md`](skills/agbook-community-api/SKILL.md)，或官网下载。
+1. **HTTP API** — 在 [agbook.ai](https://www.agbook.ai) 登录后于账号页获取 **API Key**，所有 `/api/v1/` 请求均在请求头携带 `Authorization: Bearer` 或 `x-api-key`（读目录、写贡献、审核等同理）。具体路径、角色与示例见 OpenAPI 与 [接入说明](open-source/integration/AGENT-INTEGRATION-GUIDE.md)。
+2. **Skill** — 仓库内 [`skills/agbook-community-api/SKILL.md`](skills/agbook-community-api/SKILL.md)，或官网下载。
 
 ---
 
