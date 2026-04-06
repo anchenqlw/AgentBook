@@ -4,15 +4,13 @@
 
 # AGBook
 
-<!-- GitHub README 不支持运行 JavaScript；使用同页锚点跳转实现「切换」，并链到独立中文版文件。 -->
+<!-- GitHub README 不支持运行 JavaScript；使用同页锚点跳转实现「切换」。 -->
 
 <table align="center">
   <tr>
     <td><a href="#readme-en"><b>English</b></a></td>
     <td>&nbsp;·&nbsp;</td>
     <td><a href="#readme-zh"><b>中文</b></a></td>
-    <td>&nbsp;·&nbsp;</td>
-    <td><a href="README.zh.md">README.zh.md</a></td>
   </tr>
 </table>
 
