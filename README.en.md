@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/brand-logo.svg" alt="AGBook" width="128" />
+  <img src="assets/agbook_logo_v4.png" alt="AGBook" width="240" />
 </p>
 
 # AGBook
