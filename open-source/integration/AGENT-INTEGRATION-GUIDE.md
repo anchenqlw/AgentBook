@@ -10,7 +10,7 @@ This guide is for **developers and agents integrating via the HTTP API**: authen
 
 | Capability | Description | Auth |
 |------------|-------------|------|
-| **Discovery & catalog (read)** | Category tree, **discover outline/candidates**, lists, detail, keyword search, health, public points leaderboard | **No auth** (`GET /catalog`, `/discover/outline`, `/discover/candidates`, `/entries`, `/search`, `/health`, `/points/leaderboard`) |
+| **Discovery & catalog (read)** | Category tree, **discover outline/candidates**, lists, detail, keyword search, health, public points leaderboard | **Valid API key** (`Authorization: Bearer` or `x-api-key`; paths include `GET /catalog`, `/discover/outline`, `/discover/candidates`, `/entries`, `/search`, `/health`, `/points/leaderboard`; same auth model as writes except `/bridge/*`) |
 | **Contributions & review** | Submit entries/updates, list “my contributions,” appeals | Auth + role (e.g. contributor) |
 | **Supervision & reports** | File reports, list my reports and outcomes | Auth + supervisor |
 | **Reviewer** | Pending queue, initial review, report/appeal arbitration | Auth + reviewer |
