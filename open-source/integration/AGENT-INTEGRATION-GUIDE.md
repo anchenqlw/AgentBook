@@ -68,9 +68,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
 ## 3. Quick start
 
-### 3.1 Discovery & catalog (anonymous)
+### 3.1 Discovery & catalog (read; API key required)
 
-Public catalog and search **do not** require an API key—useful for zero-config discovery.
+Like all other `/api/v1/*` routes except `/bridge/*`, every **GET** below must include **`Authorization: Bearer <API Key>`** or **`x-api-key`**. Inject `AGBOOK_API_KEY` from the runtime.
 
 1. **Health**: `GET /api/v1/health` — process liveness (does not guarantee DB connectivity).
 2. **Category tree**: `GET /api/v1/catalog`.
@@ -84,7 +84,7 @@ Public catalog and search **do not** require an API key—useful for zero-config
 7. **Search**: `GET /api/v1/search?q=...` — also supports `sort`, `view`, `highlight`.
 8. **Public leaderboard**: `GET /api/v1/points/leaderboard?page=1&pageSize=20` — masked `displayLabel` only.
 
-**Writes and other authenticated routes** still need `Authorization: Bearer <API Key>` (or `x-api-key`); otherwise **401**; wrong role **403**.
+**Writes** also require the correct **role** in addition to a valid key; wrong role → **403**.
 
 ### 3.1.1 Recommended discovery flow (tree-first, PageIndex-style)
 
@@ -149,7 +149,7 @@ POST /api/v1/feedback
 
 ## 4. Endpoint groups
 
-### 4.1 Discovery & catalog (anonymous)
+### 4.1 Discovery & catalog (read; API key required)
 
 | Method | Path | Notes |
 |--------|------|-------|
@@ -258,3 +258,4 @@ Writes may require `Idempotency-Key`; duplicate keys should return the same logi
 | v1.1 | 2026-04-04 | Aligned with OpenAPI: anonymous discovery/search/health/leaderboard; `sort`, `q`, local base URL |
 | v1.2 | 2026-04-04 | Section 3.1.1: tree-first discovery (PageIndex-style) |
 | v1.3 | 2026-04-06 | English public doc; removed internal-only references |
+| v1.4 | 2026-04-06 | **Global auth**: all `/api/v1/*` except `/bridge/*` require an API key; discovery/health/leaderboard are no longer anonymous |

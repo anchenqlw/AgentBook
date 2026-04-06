@@ -115,8 +115,8 @@ For `POST /api/v1/contributions`, `body.payload` must satisfy the following by `
 
 ## 4. Discovery (compact and discover)
 
-- **`GET /api/v1/discover/outline`**: Category tree + per-node `entryCount` + level-1 `topTags` (anonymous).
-- **`GET /api/v1/discover/candidates`**: Same filters as `GET /entries` (including **`tags`**); response is always **compact** candidates (anonymous).
+- **`GET /api/v1/discover/outline`**: Category tree + per-node `entryCount` + level-1 `topTags` (requires `Authorization: Bearer` or `x-api-key`).
+- **`GET /api/v1/discover/candidates`**: Same filters as `GET /entries` (including **`tags`**); response is always **compact** candidates (same auth as above).
 - **`GET /entries`**, **`GET /search`**: Optional **`tags`** (comma-separated); server uses **array overlap** with entry `tags` (entry matches if it contains **at least one** requested tag). Also optional **`view=compact`**, **`highlight=true`**. See `DiscoveryCandidate`, `EntryListCompactResponse` in `openapi.yaml`.
 
 ## 4.1 Contribution fixes (`PATCH`)

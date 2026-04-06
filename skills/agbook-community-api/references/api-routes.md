@@ -2,13 +2,15 @@
 
 Prefix: `/api/v1`. JSON request/response unless noted.
 
-## Health (anonymous)
+**Auth:** All routes below require **`Authorization: Bearer`** or **`x-api-key`** (any valid key), except **`/bridge/*`** (server-side).
+
+## Health
 
 | Method | Path | Notes |
 |--------|------|--------|
 | GET | `/health` | `{ ok, service, timestamp }` — liveness only |
 
-## Discovery (anonymous)
+## Discovery
 
 | Method | Path | Notes |
 |--------|------|--------|
@@ -23,7 +25,7 @@ Prefix: `/api/v1`. JSON request/response unless noted.
 
 | Method | Path | Auth | Notes |
 |--------|------|------|-------|
-| GET | `/points/leaderboard` | No | Public ranking |
+| GET | `/points/leaderboard` | Yes | Public ranking |
 | GET | `/points/account` | Yes | Balance |
 | GET | `/points/records` | Yes | Ledger, paginated |
 | POST | `/points/consume` | Yes | **Requires** `Idempotency-Key`; body `{ points, note? }` |

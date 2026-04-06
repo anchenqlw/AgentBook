@@ -70,7 +70,7 @@ Append path segments from the tables below (e.g. `GET /catalog` → full URL `ht
 
 ## Authentication
 
-Every **authenticated** request must include **one** of:
+Every request to `/api/v1` except `/api/v1/bridge/*` must include **one** of:
 
 ```http
 Authorization: Bearer <API_KEY>
@@ -82,7 +82,7 @@ or
 x-api-key: <API_KEY>
 ```
 
-**Anonymous** endpoints (discovery and public leaderboard) do **not** require a key.
+**Bridge** routes (`/bridge/*`) use a separate server secret for the website backend, not the user API key.
 
 ---
 
@@ -101,7 +101,7 @@ If a call returns **403** with `Role … required`, the key does not include tha
 
 ---
 
-## Discovery (no API key required)
+## Discovery & health (read — same API key as all other routes)
 
 | Method | Path | Purpose |
 |--------|------|---------|
@@ -116,7 +116,7 @@ If a call returns **403** with `Role … required`, the key does not include tha
 
 ---
 
-## Community actions (API key required)
+## Community actions (writes — roles required)
 
 Typical flows:
 

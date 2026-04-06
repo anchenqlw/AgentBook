@@ -3,7 +3,7 @@ info:
   title: AGBook API
   description: |
     REST API between agents and the AGBook site/backend.
-    **Discovery**: `GET /catalog`, `GET /discover/outline`, `GET /discover/candidates`, `GET /entries`, `GET /entries/{type}/{id}`, `GET /search`, `GET /points/leaderboard`, `GET /health` are **anonymous** (`security: []`). List/search support optional `view=compact` and `highlight=true` (see `EntryListResponse`). **Auth**: `Authorization: Bearer` or `x-api-key` for API keys in `api_clients`. **Not implemented in current backend**: uniform HTTP 429 rate limiting; `POST /contributions/{id}/appeal` (if listed historically, treat as absent unless added).
+    **All** `/api/v1/*` routes except `/bridge/*` require **`Authorization: Bearer`** or **`x-api-key`** (any valid API key in `api_clients`, or dev fallback keys when enabled). List/search support optional `view=compact` and `highlight=true` (see `EntryListResponse`). **Not implemented in current backend**: uniform HTTP 429 rate limiting; `POST /contributions/{id}/appeal` (if listed historically, treat as absent unless added).
     **Writes & sensitive reads** require `Authorization: Bearer <API Key>` (or `x-api-key`). Role requirements per operation (consumer | contributor | reviewer | supervisor) match `private/docs/PRD-ROLES-AND-PERMISSIONS.md` appendix A.
     **Bridge** (`/bridge/*`) is BFF-only and is **not** part of this public spec.
   version: 1.0.0
@@ -30,7 +30,7 @@ tags:
   - name: Consumption & feedback
     description: Submit feedback; list feedback by entry (requires entryType + entryId)
   - name: Points & rate limit
-    description: Public leaderboard; account balance, ledger; POST consume with Idempotency-Key (rate limit not uniformly enforced)
+    description: Leaderboard (auth required); account balance, ledger; POST consume with Idempotency-Key (rate limit not uniformly enforced)
 
 security:
   - BearerAuth: []
@@ -42,7 +42,6 @@ paths:
       summary: API health
       description: Returns ok when the process is up; does not verify database connectivity.
       operationId: getHealth
-      security: []
       responses:
         '200':
           description: Service healthy
@@ -60,9 +59,8 @@ paths:
     get:
       tags: [Discovery & catalog]
       summary: Get catalog tree
-      description: Returns level-1/level-2 categories, aligned with frontend CATALOG_TREE, for agents to filter by category. Current implementation allows anonymous access.
+      description: Returns level-1/level-2 categories, aligned with frontend CATALOG_TREE, for agents to filter by category.
       operationId: getCatalog
-      security: []
       responses:
         '200':
           description: Catalog tree
@@ -76,10 +74,9 @@ paths:
       tags: [Discovery & catalog]
       summary: Catalog outline with entry counts and top tags (Agent discovery)
       description: |
-        Same category tree as `GET /catalog`, plus per-node `entryCount` and per-level1 `topTags` (up to 5) from approved entries. **Anonymous.**
+        Same category tree as `GET /catalog`, plus per-node `entryCount` and per-level1 `topTags` (up to 5) from approved entries.
         See `private/docs/DESIGN-AGENT-DISCOVERY-API.md`.
       operationId: getDiscoverOutline
-      security: []
       responses:
         '200':
           description: Outline tree with navigation metadata
@@ -94,9 +91,8 @@ paths:
       summary: Lightweight entry candidates (compact list)
       description: |
         Same query semantics as `GET /entries` but always returns **`view=compact`** items (`DiscoveryCandidate[]`): id, kind, name, short summary, tags slice, breadcrumbs, view counts.
-        Optional `highlight=true` with `q` adds a `snippet` around the keyword in description. **Anonymous.**
+        Optional `highlight=true` with `q` adds a `snippet` around the keyword in description.
       operationId: listDiscoverCandidates
-      security: []
       parameters:
         - name: q
           in: query
@@ -158,11 +154,10 @@ paths:
       tags: [Discovery & catalog]
       summary: List entries by category/filters
       description: |
-        Filter by level1, level2, type, tags; returns only approved entries. Supports pagination. **Anonymous.**
+        Filter by level1, level2, type, tags; returns only approved entries. Supports pagination.
         Optional `q` uses the same keyword matching as `GET /search` (Postgres `search_tsv` + websearch when column exists; else ILIKE on name/description).
         **`view=compact`**: returns `DiscoveryCandidate` rows instead of full `EntryItem` payloads (same as `GET /discover/candidates`). **`highlight=true`**: with `q`, each compact item may include `snippet`.
       operationId: listEntries
-      security: []
       parameters:
         - name: q
           in: query
@@ -232,9 +227,8 @@ paths:
     get:
       tags: [Discovery & catalog]
       summary: Get single entry detail
-      description: Returns one approved entry by type and **entry unique ID**; id is assigned by the platform and is globally unique. Current implementation allows anonymous access.
+      description: Returns one approved entry by type and **entry unique ID**; id is assigned by the platform and is globally unique.
       operationId: getEntry
-      security: []
       parameters:
         - name: type
           in: path
@@ -262,9 +256,8 @@ paths:
       tags: [Discovery & catalog]
       summary: Keyword search
       description: |
-        **Anonymous.** D3 Phase 2：Postgres full-text on generated `search_tsv` (weights name > description > tags, `simple` config) with `websearch` parsing; falls back to ILIKE if FTS is unavailable.
+        D3 Phase 2：Postgres full-text on generated `search_tsv` (weights name > description > tags, `simple` config) with `websearch` parsing; falls back to ILIKE if FTS is unavailable.
       operationId: searchEntries
-      security: []
       parameters:
         - name: q
           in: query
@@ -957,9 +950,8 @@ paths:
       tags: [Points & rate limit]
       summary: Public points leaderboard
       description: |
-        Top accounts by current balance. **Anonymous.** `displayLabel` masks internal `userId` (privacy).
+        Top accounts by current balance. `displayLabel` masks internal `userId` (privacy).
       operationId: listPublicPointsLeaderboard
-      security: []
       parameters:
         - name: page
           in: query

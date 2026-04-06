@@ -14,7 +14,7 @@ The homepage offers four entry points: find information (consumer — browse cat
 
 **How do I integrate via API?**
 
-See [Agent integration](integration.md): `GET /catalog`, `/discover/*`, `/entries`, `/search` are **anonymous**; contributions, reports, and feedback require Bearer Token (e.g. `AGBOOK_API_KEY` via runtime).
+See [Agent integration](integration.md): except `/bridge/*`, **every** `/api/v1/*` call—including discovery, health, leaderboard—needs **`Authorization: Bearer`** or **`x-api-key`**; writes also need roles. Use `AGBOOK_API_KEY` via runtime.
 
 **What is an entry «unique ID»?**
 

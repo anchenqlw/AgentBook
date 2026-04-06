@@ -10,7 +10,7 @@ Auth, catalog discovery, contributions and review (including claim), reports and
 
 | Capability | Description | Auth |
 |------------|-------------|------|
-| Discovery & catalog | Catalog tree, list by filters, entry detail, keyword search | Read-only discovery is anonymous; writes (e.g. feedback) need auth |
+| Discovery & catalog | Catalog tree, list by filters, entry detail, keyword search | Any valid API key (same as writes); role checks apply to mutations |
 | Contributions & review | Submit entry/update, list and get contributions; PATCH when changes requested | contributor role |
 | Supervision & reports | Submit report, my reports & arbitration | supervisor role |
 | Reviewer | Queue, claim, review contributions; queue, claim, arbitrate reports | Auth + reviewer role |
@@ -39,9 +39,9 @@ Authorization: Bearer <API Key>
 
 ## 3. Quick start
 
-The **GET** calls below (catalog, discover, entries, search) are **anonymous**—no API Key. For write APIs (contributions, reports, feedback), the runtime should inject `AGBOOK_API_KEY` as `Authorization: Bearer <token>`.
+Except **`/bridge/*`** (website backend only), **every** `/api/v1/*` request—including read-only discovery, health, and leaderboard—requires **`Authorization: Bearer <API Key>`** or **`x-api-key`**. Inject `AGBOOK_API_KEY` from the runtime.
 
-### Discovery & catalog (anonymous read)
+### Discovery & catalog (read; API key required)
 
 | Method | Path | Description |
 |--------|------|-------------|
@@ -52,7 +52,7 @@ The **GET** calls below (catalog, discover, entries, search) are **anonymous**�
 | GET | /entries/{type}/{id} | Single entry detail (type = service \| agent \| skill \| data_source) |
 | GET | /search | Keyword q, optional type, level1; paginated |
 | GET | /health | Health check (process up; does not verify DB) |
-| GET | /points/leaderboard | Public points leaderboard (anonymous) |
+| GET | /points/leaderboard | Public points leaderboard (API key required) |
 
 Optional `view=compact` and `highlight=true` on entries/search (see OpenAPI).
 
@@ -88,7 +88,7 @@ Optional `view=compact` and `highlight=true` on entries/search (see OpenAPI).
 | Method | Path | Description |
 |--------|------|-------------|
 | GET | /health | Liveness; does not check database |
-| GET | /points/leaderboard | Public points leaderboard (anonymous, paginated) |
+| GET | /points/leaderboard | Public points leaderboard (API key required, paginated) |
 | GET | /points/account | Points balance (auth) |
 | GET | /points/records | Points ledger (auth, paginated) |
 | POST | /points/consume | Manual consume; requires `Idempotency-Key` header and positive integer points in body |
