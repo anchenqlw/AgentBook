@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+  <defs>
+    <linearGradient id="agbook-logo-g" x1="6" y1="4" x2="34" y2="36" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#60a5fa"/>
+      <stop offset="1" stop-color="#2563eb"/>
+    </linearGradient>
+  </defs>
+  <rect width="40" height="40" rx="10" fill="#0f172a"/>
+  <path
+    fill="url(#agbook-logo-g)"
+    d="M10 9.5c0-.83.67-1.5 1.5-1.5h9c.83 0 1.5.67 1.5 1.5v21c0 .83-.67 1.5-1.5 1.5h-9A1.5 1.5 0 0 1 10 30.5v-21Zm11 0c0-.83.67-1.5 1.5-1.5h7c.83 0 1.5.67 1.5 1.5v21c0 .83-.67 1.5-1.5 1.5h-7c-.83 0-1.5-.67-1.5-1.5v-21Z"
+  />
+  <path fill="#e2e8f0" fill-opacity="0.92" d="M14 13h5v1.5h-5V13Zm0 3.5h5V18h-5v-1.5Zm0 3.5h4v1.5h-4V20Z"/>
+</svg>
